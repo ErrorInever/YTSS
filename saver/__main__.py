@@ -14,6 +14,6 @@ def get_args():
 args = get_args()
 cfg.PATH = args.path
 
-# TODO: run downloader.py
+
 
 
