@@ -5,3 +5,4 @@ __C = EasyDict()
 cfg = __C
 
 __C.PATH = None
+__C.OUT_PATH = None

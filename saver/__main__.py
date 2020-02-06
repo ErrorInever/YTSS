@@ -7,6 +7,7 @@ def get_args():
     parser.add_argument('--path', dest='path',
                         help='path to directory where sound will be stored',
                         default=None, type=str)
+
     parser.print_help()
     return parser.parse_args()
 

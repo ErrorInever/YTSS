@@ -94,7 +94,7 @@ def parse_time_code(time_code):
         return start_min, start_sec, end_min, end_sec
 
 
-def cut_song(path, time_code):
+def cut_song(path, out_path, time_code):
     """
     Cuts song
     :param path: path to song file
@@ -104,3 +104,16 @@ def cut_song(path, time_code):
     if not isinstance(time_code, str):
         raise TypeError('expect {}, but get {}'.format(str, time_code.__class__))
 
+    start_min, start_sec, end_min, end_sec = parse_time_code(time_code)
+
+    start_time = start_min*60*1000 + start_sec*1000
+    end_time = end_min*60*1000 + end_sec*1000
+
+    try:
+        song = AudioSegment.from_file(path)
+    except FileNotFoundError:
+        cprint('{} NOT FOUND'.format(path), 'red',
+               attrs=['bold', 'underline', 'reverse'])
+    else:
+        extract = song[start_time:end_time]
+        extract.export(extract)
