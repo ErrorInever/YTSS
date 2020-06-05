@@ -1,3 +1,5 @@
+reader
+colorama
 pydub
 termcolor
 easydict

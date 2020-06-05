@@ -14,8 +14,10 @@ def show_progress_download(stream, chunk, file_handle, bytes_remaining):
     percentage_of_completion = bytes_downloaded / size * 100
     status = '#' * int((percentage_of_completion / 10))
     if percentage_of_completion != 100:
-        sys.stdout.write('\r' + '    ↳[{status}] {percent}% Downloading...'.format(status=status, percent=int(percentage_of_completion)))
+        sys.stdout.write('\r' + '    ↳[{status}] {percent}% Downloading...'.format(
+            status=status, percent=int(percentage_of_completion)))
         sys.stdout.flush()
     else:
-        sys.stdout.write('\r' + '    ↳[{status}] {percent}% Complete...\n'.format(status=status, percent=int(percentage_of_completion)))
+        sys.stdout.write('\r' + '    ↳[{status}] {percent}% Complete...\n'.format(
+            status=status, percent=int(percentage_of_completion)))
         sys.stdout.flush()
