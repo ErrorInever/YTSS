@@ -43,30 +43,31 @@ def download_playlist(url):
         download_audio(video_url)
 
 
-def cut_sound(time_code, path_to_audio):
-    """
-    Cuts sound
-    :param time_code: ``Tuple([start_mm, start_ss], [end_mm, end_ss])``
-    :param path_to_audio: ``str`` path to audio file
-    """
-    start, end = get_time_code(time_code)
-    current_format = path_to_audio.split('.')[-1]
-
-    try:
-        start = list(map(int, start))
-        end = list(map(int, end))
-    except ValueError:
-        print('Unknown time code format')
-    except Exception:
-        print('Unexpected error:', sys.exc_info()[0])
-    else:
-        start_time = start[0] * 60 * 1000 + start[1] * 1000
-        end_time = end[0] * 60 * 1000 + end[1] * 1000
-
-    try:
-        sound = AudioSegment.from_file(path_to_audio)
-    except FileNotFoundError:
-        print('Sound not found, get path {}'.format(path_to_audio))
-    else:
-        extract = sound[start_time:end_time]
-        extract.export(path_to_audio, format=current_format)
+# def cut_sound(time_code, path_to_audio):
+#     """
+#     Cuts sound
+#     :param time_code: ``Tuple([start_mm, start_ss], [end_mm, end_ss])``
+#     :param path_to_audio: ``str`` path to audio file
+#     """
+#     start, end = get_time_code(time_code)
+#     current_format = path_to_audio.split('.')[-1]
+#     audio_name = path_to_audio.split('/')[-1]
+#
+#     try:
+#         start = list(map(int, start))
+#         end = list(map(int, end))
+#     except ValueError:
+#         print('Unknown time code format')
+#     except Exception:
+#         print('Unexpected error:', sys.exc_info()[0])
+#     else:
+#         start_time = start[0] * 60 * 1000 + start[1] * 1000
+#         end_time = end[0] * 60 * 1000 + end[1] * 1000
+#
+#     try:
+#         sound = AudioSegment.from_file(path_to_audio)
+#     except FileNotFoundError:
+#         print('Sound not found, get path {}'.format(path_to_audio))
+#     else:
+#         extract = sound[start_time:end_time]
+#         extract.export(cfg.OUT_DIR + '/' + audio_name, format=current_format)
