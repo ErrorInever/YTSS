@@ -26,7 +26,6 @@ def get_time_code(time_code):
         else:
             start = None
             end = None
-            return
 
     if start is None:
         start_mm = None
