@@ -4,3 +4,4 @@ pydub
 termcolor
 easydict
 pytube
+pytube3
