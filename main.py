@@ -1,20 +1,26 @@
 import argparse
 import colorama
 import functions
+import pyfiglet
 from config.cfg import cfg
 from termcolor import cprint
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='YouTube simple saver')
+    parser = argparse.ArgumentParser()
     parser.add_argument('--video', dest='video_url', help='video url', default=None, type=str)
     parser.add_argument('--playlist', dest='playlist_url', help='playlist url', default=None, type=str)
     parser.add_argument('--out_dir', dest='out_dir', help='path to output directory', default=None, type=str)
+    parser.print_help()
     return parser.parse_args()
 
+def console_logo():
+    cprint(pyfiglet.figlet_format("YTSS"), 'green')
+    cprint('Just a simple youtube downloader', 'green')
 
 if __name__ == '__main__':
     colorama.init()
+    console_logo()
     args = parse_args()
 
     if cfg.OUT_DIR is None:
