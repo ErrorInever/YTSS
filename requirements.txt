@@ -1,7 +1,5 @@
 reader
 colorama
-pydub
 termcolor
 easydict
-pytube
-pytube3
+youtube-dl
