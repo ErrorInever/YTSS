@@ -1,46 +1,46 @@
-import pytube
+from __future__ import unicode_literals
 import sys
+import youtube_dl
 from termcolor import cprint
 from utils import show_progress_download
 from config.cfg import cfg
-from pydub import AudioSegment
 from utils import get_time_code
 
 
-def _save_audio(audio):
-    """
-    Saves audio to disk
-    :param audio: ``pytube.streams.Stream``
-    """
-    if not isinstance(audio, pytube.streams.Stream):
-        raise TypeError('expect {}, but get {}'.format(pytube.streams.Stream.__name__, type(audio)))
-    song_name = audio.default_filename
-    cprint('SONG NAME --- {}'.format(song_name), 'yellow',
-           attrs=['bold', 'underline', 'reverse'])
-
-    audio.download(output_path=cfg.OUT_DIR)
-    cprint('Complete: {}/{}'.format(cfg.OUT_DIR, song_name), 'green',
-           attrs=['bold', 'underline', 'reverse'])
+def download_hook(d):
+    if d['status'] == 'downloading':
+        print(d['filename'], d['_percent_str'])
+    elif d['status'] == 'finished':
+        cprint('Download {} is complete, now converting'.format(d['filename'].split('/')[-1]),
+                                                                'green', attrs=['bold'])
 
 
-def download_audio(url):
+def download_audio(url, out_dir, **kwargs):
     """
-    Downloads audio from youtube video
-    :param url: video url
+    Downloads audio from video or playlist
+    :param url: video or playlist url
+    :param out_dir: path to out directory
+    :param kwargs: params of YoutubeDL
+    https://github.com/ytdl-org/youtube-dl/blob/master/youtube_dl/YoutubeDL.py
     """
-    youtub = pytube.YouTube(url, on_progress_callback=show_progress_download)
-    audio = youtub.streams.filter(only_audio=True).all()
-    _save_audio(audio[0])
+    ydl_opts = {
+    'format': 'bestaudio/best',
+    'outtmpl': out_dir + '/%(title)s.%(ext)s',
+    'postprocessors': [{
+        'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'mp3',
+        'preferredquality': '192',
+    }],
+    'progress_hooks': [download_hook],
+    }
 
+    for key in kwargs:
+        ydl_opts[key] = kwargs[key]
 
-def download_playlist(url):
-    """
-    Downloads playlist from youtube
-    :param url: playlist url
-    """
-    playlist = pytube.Playlist(url)
-    for video_url in playlist.video_urls:
-        download_audio(video_url)
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+
+    cprint('Done. Downloading complete', 'green', attrs=['bold','reverse'])
 
 
 # def cut_sound(time_code, path_to_audio):
