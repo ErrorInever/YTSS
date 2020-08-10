@@ -14,11 +14,13 @@ def download_hook(d):
         print('Download is complete, now converting')
 
 
-def download_audio(url, out_dir):
+def download_audio(url, out_dir, **kwargs):
     """
-    Downloads audio from youtube video
-    :param url: video url
+    Downloads audio from video or playlist
+    :param url: video or playlist url
     :param out_dir: path to out directory
+    :param kwargs: params of YoutubeDL
+    https://github.com/ytdl-org/youtube-dl/blob/master/youtube_dl/YoutubeDL.py
     """
     ydl_opts = {
     'format': 'bestaudio/best',
@@ -29,20 +31,6 @@ def download_audio(url, out_dir):
         'preferredquality': '192',
     }],
     'progress_hooks': [download_hook],
-    }
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
-
-def download_playlist(url, out_dir, **kwargs):
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'outtmpl': out_dir + '/%(title)s.%(ext)s',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-        'progress_hooks': [download_hook],
     }
 
     for key in kwargs:
