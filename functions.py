@@ -11,7 +11,8 @@ def download_hook(d):
     if d['status'] == 'downloading':
         print(d['filename'], d['_percent_str'])
     elif d['status'] == 'finished':
-        print('Download is complete, now converting')
+        cprint('Download {} is complete, now converting'.format(d['filename'].split('/')[-1]),
+                                                                'green', attrs=['bold'])
 
 
 def download_audio(url, out_dir, **kwargs):
@@ -39,13 +40,8 @@ def download_audio(url, out_dir, **kwargs):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
-if __name__ == '__main__':
-    # args = {
-    #     'playliststart': 3,
-    #     'playlistend': 4,
-    # }
-    #args = {'playlist_items': '1, 2'}
-    download_playlist('https://www.youtube.com/playlist?list=PLKvVP6uqHnAb600O3C0Di8Ntjd3tnT_hh', '~/some', **args)
+    cprint('Done. Downloading complete', 'green', attrs=['bold','reverse'])
+
 
 # def cut_sound(time_code, path_to_audio):
 #     """
