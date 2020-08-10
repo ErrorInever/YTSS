@@ -13,7 +13,6 @@ def parse_args():
     parser.add_argument('--items', dest='items', help="Playlist items e.g. '1, 3, 8'", default=None, type=str)
     parser.add_argument('--range', dest='rng', help="Playlist Start from index to end index e.g. '1, 5', from 1 to 5",
                         default=None, type=str)
-    parser.print_help()
     return parser.parse_args()
 
 def console_logo():
