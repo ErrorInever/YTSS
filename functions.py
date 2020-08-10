@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 import sys
 import youtube_dl
 from termcolor import cprint
-from utils import show_progress_download
 from config.cfg import cfg
 from utils import get_time_code
 
